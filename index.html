@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCSE Chemistry Test - Higher Tier (Grade 8-9)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .timer-section {
+            background: #f8f9fa;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .timer {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .timer.warning {
+            color: #ff6b6b;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .progress-info {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .marks-display {
+            font-size: 1.1em;
+            color: #495057;
+        }
+
+        .test-content {
+            padding: 30px;
+        }
+
+        .start-screen {
+            text-align: center;
+            padding: 50px;
+        }
+
+        .start-screen h2 {
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        .start-screen ul {
+            text-align: left;
+            max-width: 600px;
+            margin: 20px auto;
+            color: #6c757d;
+        }
+
+        .start-screen li {
+            margin: 10px 0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .question {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid #667eea;
+        }
+
+        .question h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .marks-badge {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .question-text {
+            color: #495057;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        input[type="text"], input[type="number"], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .radio-group, .checkbox-group {
+            margin: 15px 0;
+        }
+
+        .radio-option, .checkbox-option {
+            display: block;
+            margin: 10px 0;
+            padding: 15px;
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .radio-option:hover, .checkbox-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .radio-option input, .checkbox-option input {
+            margin-right: 10px;
+        }
+
+        .results-screen {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .score-display {
+            font-size: 3em;
+            color: #495057;
+            margin: 20px 0;
+        }
+
+        .grade-display {
+            font-size: 2em;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .grade-9 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .grade-8 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .grade-7 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; }
+        .grade-6 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white; }
+        .grade-below { background: #6c757d; color: white; }
+
+        .feedback-section {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .feedback-category {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .feedback-category h4 {
+            color: #495057;
+            margin-bottom: 10px;
+        }
+
+        .feedback-category ul {
+            color: #6c757d;
+            margin-left: 20px;
+        }
+
+        .feedback-category li {
+            margin: 8px 0;
+        }
+
+        .recommendation {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .recommendation h4 {
+            margin-bottom: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .equation-input {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+        }
+
+        .sub {
+            vertical-align: sub;
+            font-size: 0.8em;
+        }
+
+        .sup {
+            vertical-align: super;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>GCSE Chemistry Test</h1>
+            <p>Higher Tier - Grade 8-9 Level</p>
+        </div>
+
+        <div class="timer-section">
+            <div class="progress-info">
+                <div class="marks-display">Total: 105 marks</div>
+                <div id="questionProgress"></div>
+            </div>
+            <div class="timer" id="timer">Time: 110:00</div>
+        </div>
+
+        <div class="test-content">
+            <div id="startScreen" class="start-screen">
+                <h2>Welcome to Your Chemistry Test</h2>
+                <p>This test is designed to challenge you at Grade 8-9 level.</p>
+                <ul>
+                    <li>Total marks: 105</li>
+                    <li>Time limit: 110 minutes</li>
+                    <li>Topics covered: All major GCSE Chemistry topics</li>
+                    <li>You'll receive personalized feedback based on your performance</li>
+                    <li>Answer all questions to the best of your ability</li>
+                </ul>
+                <button class="btn" id="startButton">Start Test</button>
+            </div>
+
+            <div id="testQuestions" class="hidden">
+                <!-- Questions will be dynamically inserted here -->
+            </div>
+
+            <div id="resultsScreen" class="results-screen hidden">
+                <!-- Results will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let timeLeft = 110 * 60;
+        let timerInterval;
+        let answers = {};
+        let startTime;
+
+        // Questions array with proper syntax
+        const questions = [
+            {
+                id: 'q1',
+                type: 'text',
+                marks: 2,
+                topic: 'atomic_structure',
+                category: 'definition',
+                question: 'Define isotopes and explain why they have the same chemical properties but different physical properties.',
+                answer: ['same number of protons', 'different number of neutrons', 'same electron configuration', 'different mass'],
+                keywords: ['protons', 'neutrons', 'electrons', 'chemical', 'physical', 'mass']
+            },
+            {
+                id: 'q2',
+                type: 'multiple',
+                marks: 3,
+                topic: 'periodic_table',
+                category: 'application',
+                question: 'An element X forms an ion X<sup>2-</sup>. It has 18 electrons. What is element X?',
+                options: ['Oxygen', 'Sulfur', 'Argon', 'Calcium'],
+                answer: 'Sulfur'
+            },
+            {
+                id: 'q3',
+                type: 'calculation',
+                marks: 4,
+                topic: 'atomic_structure',
+                category: 'calculation',
+                question: 'Chlorine has two isotopes: <sup>35</sup>Cl (75%) and <sup>37</sup>Cl (25%). Calculate the relative atomic mass of chlorine.',
+                answer: 35.5,
+                tolerance: 0.1
+            },
+            {
+                id: 'q4',
+                type: 'text',
+                marks: 3,
+                topic: 'periodic_table',
+                category: 'explanation',
+                question: 'Explain why caesium is more reactive than lithium in Group 1.',
+                answer: ['outer electron further', 'more shells', 'shielding increases', 'weaker attraction'],
+                keywords: ['electron', 'shielding', 'distance', 'shells', 'attraction']
+            },
+            {
+                id: 'q5',
+                type: 'calculation',
+                marks: 3,
+                topic: 'periodic_table',
+                category: 'application',
+                question: 'A chloride ion has 18 electrons and mass number 37. How many neutrons does it have?',
+                answer: 20,
+                tolerance: 0
+            },
+            {
+                id: 'q6',
+                type: 'text',
+                marks: 4,
+                topic: 'bonding',
+                category: 'explanation',
+                question: 'Explain why graphite conducts electricity but diamond does not.',
+                answer: ['delocalized electrons', 'layers', 'all electrons bonded', 'tetrahedral'],
+                keywords: ['delocalized', 'electrons', 'layers', 'conduct']
+            },
+            {
+                id: 'q7',
+                type: 'multiple',
+                marks: 2,
+                topic: 'bonding',
+                category: 'application',
+                question: 'Why does sodium chloride have a high melting point?',
+                options: ['Strong covalent bonds', 'Strong electrostatic forces between ions', 'Weak intermolecular forces', 'Metallic bonding'],
+                answer: 'Strong electrostatic forces between ions'
+            },
+            {
+                id: 'q8',
+                type: 'text',
+                marks: 3,
+                topic: 'bonding',
+                category: 'comparison',
+                question: 'Compare the properties of ionic and covalent compounds.',
+                answer: ['melting point', 'conductivity', 'solubility'],
+                keywords: ['melting', 'conduct', 'soluble']
+            },
+            {
+                id: 'q9',
+                type: 'text',
+                marks: 3,
+                topic: 'bonding',
+                category: 'explanation',
+                question: 'Explain why iodine has a higher boiling point than chlorine.',
+                answer: ['larger molecules', 'more electrons', 'stronger forces'],
+                keywords: ['larger', 'electrons', 'intermolecular', 'forces']
+            },
+            {
+                id: 'q10',
+                type: 'equation',
+                marks: 3,
+                topic: 'equations',
+                category: 'balancing',
+                question: 'Balance: Al + Fe₂O₃ → Al₂O₃ + Fe',
+                answer: '2Al + Fe2O3 = Al2O3 + 2Fe'
+            },
+            {
+                id: 'q11',
+                type: 'calculation',
+                marks: 4,
+                topic: 'conservation',
+                category: 'calculation',
+                question: 'Calculate mass of MgO from 4.8g Mg. (Ar: Mg=24, O=16)',
+                answer: 8.0,
+                tolerance: 0.1
+            },
+            {
+                id: 'q12',
+                type: 'equation',
+                marks: 3,
+                topic: 'equations',
+                category: 'balancing',
+                question: 'Balance: C₃H₈ + O₂ → CO₂ + H₂O',
+                answer: 'C3H8 + 5O2 = 3CO2 + 4H2O'
+            },
+            {
+                id: 'q13',
+                type: 'calculation',
+                marks: 3,
+                topic: 'calculations',
+                category: 'calculation',
+                question: 'Calculate Mr of Ca(NO₃)₂. (Ar: Ca=40, N=14, O=16)',
+                answer: 164,
+                tolerance: 1
+            },
+            {
+                id: 'q14',
+                type: 'text',
+                marks: 5,
+                topic: 'calculations',
+                category: 'calculation',
+                question: 'Find empirical formula: 40% C, 6.7% H, 53.3% O',
+                answer: ['CH2O'],
+                keywords: ['CH2O', 'CHO']
+            },
+            {
+                id: 'q15',
+                type: 'text',
+                marks: 4,
+                topic: 'rates',
+                category: 'explanation',
+                question: 'Explain how temperature affects reaction rate using collision theory.',
+                answer: ['kinetic energy', 'frequency', 'activation energy', 'collisions'],
+                keywords: ['kinetic', 'frequency', 'activation', 'collisions']
+            },
+            {
+                id: 'q16',
+                type: 'multiple',
+                marks: 2,
+                topic: 'rates',
+                category: 'application',
+                question: 'What increases rate most for zinc + HCl?',
+                options: ['Temperature +10°C', 'Double concentration', 'Use zinc powder', 'Stir'],
+                answer: 'Use zinc powder'
+            },
+            {
+                id: 'q17',
+                type: 'calculation',
+                marks: 4,
+                topic: 'rates',
+                category: 'calculation',
+                question: 'Calculate rate: 48cm³ in 30s',
+                answer: 1.6,
+                tolerance: 0.1
+            },
+            {
+                id: 'q18',
+                type: 'text',
+                marks: 3,
+                topic: 'energy',
+                category: 'definition',
+                question: 'Define activation energy.',
+                answer: ['minimum energy', 'reaction occur', 'break bonds'],
+                keywords: ['minimum', 'energy', 'reaction']
+            },
+            {
+                id: 'q19',
+                type: 'multiple',
+                marks: 4,
+                topic: 'energy',
+                category: 'application',
+                question: 'A student dissolves ammonium nitrate in water. The temperature decreases from 21°C to 15°C. Which statements are correct? 1) The reaction is endothermic 2) Energy is transferred from surroundings 3) The products have less energy than reactants',
+                options: ['1 and 2 only', '1 and 3 only', '2 and 3 only', 'All are correct'],
+                answer: '1 and 2 only'
+            },
+            {
+                id: 'q20',
+                type: 'multiple',
+                marks: 3,
+                topic: 'energy',
+                category: 'application',
+                question: 'Endothermic reactions:',
+                options: ['Products less energy', 'Products more energy', 'Same energy', 'No energy'],
+                answer: 'Products more energy'
+            },
+            {
+                id: 'q21',
+                type: 'text',
+                marks: 4,
+                topic: 'equilibrium',
+                category: 'explanation',
+                question: 'How does pressure affect N₂ + 3H₂ ⇌ 2NH₃?',
+                answer: ['fewer moles', 'forward reaction', 'more ammonia'],
+                keywords: ['pressure', 'forward', 'ammonia']
+            },
+            {
+                id: 'q22',
+                type: 'multiple',
+                marks: 4,
+                topic: 'equilibrium',
+                category: 'application',
+                question: 'Increase SO₃ yield in 2SO₂ + O₂ ⇌ 2SO₃ (exothermic):',
+                options: ['Increase temp', 'Decrease pressure', 'Decrease temp', 'Remove catalyst'],
+                answer: 'Decrease temp'
+            },
+            {
+                id: 'q23',
+                type: 'text',
+                marks: 4,
+                topic: 'metals',
+                category: 'explanation',
+                question: 'A student adds zinc to copper sulfate solution. The solution turns from blue to colourless and a brown solid forms. Explain what happens in terms of reactivity.',
+                answer: ['zinc more reactive', 'displaces copper', 'zinc dissolves', 'copper forms solid'],
+                keywords: ['reactive', 'displac', 'zinc', 'copper']
+            },
+            {
+                id: 'q24',
+                type: 'multiple',
+                marks: 4,
+                topic: 'metals',
+                category: 'application',
+                question: 'Extract aluminium by:',
+                options: ['Carbon reduction', 'Electrolysis', 'Displacement', 'Decomposition'],
+                answer: 'Electrolysis'
+            },
+            {
+                id: 'q25',
+                type: 'text',
+                marks: 3,
+                topic: 'organic',
+                category: 'definition',
+                question: 'General formula for alkanes?',
+                answer: ['CnH2n+2'],
+                keywords: ['CnH2n+2', 'alkane']
+            },
+            {
+                id: 'q26',
+                type: 'multiple',
+                marks: 3,
+                topic: 'organic',
+                category: 'application',
+                question: 'Ethanol combustion products:',
+                options: ['Carbon + water', 'CO + water', 'CO₂ + water', 'CO₂ only'],
+                answer: 'CO₂ + water'
+            },
+            {
+                id: 'q27',
+                type: 'text',
+                marks: 4,
+                topic: 'organic',
+                category: 'explanation',
+                question: 'Describe fractional distillation.',
+                answer: ['heated', 'evaporate', 'condense', 'boiling points'],
+                keywords: ['heat', 'evaporate', 'condense', 'boiling']
+            },
+            {
+                id: 'q28',
+                type: 'text',
+                marks: 4,
+                topic: 'analysis',
+                category: 'practical',
+                question: 'Test for chloride ions.',
+                answer: ['silver nitrate', 'white precipitate'],
+                keywords: ['silver', 'nitrate', 'white', 'precipitate']
+            },
+            {
+                id: 'q29',
+                type: 'calculation',
+                marks: 4,
+                topic: 'analysis',
+                category: 'application',
+                question: 'Calculate Rf: 6.4cm moved, 8.0cm solvent.',
+                answer: 0.8,
+                tolerance: 0.01
+            },
+            {
+                id: 'q30',
+                type: 'text',
+                marks: 3,
+                topic: 'atmosphere',
+                category: 'explanation',
+                question: 'How did CO₂ decrease in atmosphere?',
+                answer: ['photosynthesis', 'dissolved', 'carbonates'],
+                keywords: ['photosynthesis', 'ocean', 'carbonate']
+            },
+            {
+                id: 'q31',
+                type: 'multiple',
+                marks: 3,
+                topic: 'atmosphere',
+                category: 'application',
+                question: 'Percentage of nitrogen in air:',
+                options: ['21%', '78%', '0.04%', '1%'],
+                answer: '78%'
+            },
+            {
+                id: 'q32',
+                type: 'text',
+                marks: 5,
+                topic: 'resources',
+                category: 'evaluation',
+                question: 'Evaluate recycling metals vs extraction.',
+                answer: ['energy', 'cost', 'resources', 'pollution'],
+                keywords: ['energy', 'cost', 'resources', 'pollution']
+            }
+        ];
+
+        // Wait for DOM to load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('startButton').addEventListener('click', startTest);
+        });
+
+        function startTest() {
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('testQuestions').classList.remove('hidden');
+            startTime = Date.now();
+            renderQuestions();
+            startTimer();
+            updateProgress();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitTest();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            const timerElement = document.getElementById('timer');
+            timerElement.textContent = `Time: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft < 300) {
+                timerElement.classList.add('warning');
+            }
+        }
+
+        function updateProgress() {
+            const answered = Object.keys(answers).length;
+            const total = questions.length;
+            document.getElementById('questionProgress').textContent = `Questions: ${answered}/${total}`;
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('testQuestions');
+            let html = '';
+            
+            questions.forEach((q, index) => {
+                html += `
+                    <div class="question">
+                        <h3>
+                            Question ${index + 1}
+                            <span class="marks-badge">${q.marks} mark${q.marks > 1 ? 's' : ''}</span>
+                        </h3>
+                        <div class="question-text">${q.question}</div>
+                        ${renderQuestionInput(q)}
+                    </div>
+                `;
+            });
+            
+            html += '<button class="btn" onclick="submitTest()">Submit Test</button>';
+            container.innerHTML = html;
+        }
+
+        function renderQuestionInput(question) {
+            switch(question.type) {
+                case 'text':
+                    return `<textarea id="${question.id}" onchange="saveAnswer('${question.id}', this.value)"></textarea>`;
+                
+                case 'multiple':
+                    return `
+                        <div class="radio-group">
+                            ${question.options.map(opt => `
+                                <label class="radio-option">
+                                    <input type="radio" name="${question.id}" value="${opt}" 
+                                           onchange="saveAnswer('${question.id}', '${opt}')">
+                                    ${opt}
+                                </label>
+                            `).join('')}
+                        </div>
+                    `;
+                
+                case 'calculation':
+                    return `<input type="number" id="${question.id}" step="0.01" 
+                            onchange="saveAnswer('${question.id}', this.value)" 
+                            placeholder="Enter numerical answer">`;
+                
+                case 'equation':
+                    return `<input type="text" id="${question.id}" class="equation-input"
+                            onchange="saveAnswer('${question.id}', this.value)" 
+                            placeholder="e.g., 2H2 + O2 = 2H2O">`;
+                
+                default:
+                    return `<input type="text" id="${question.id}" 
+                            onchange="saveAnswer('${question.id}', this.value)">`;
+            }
+        }
+
+        function saveAnswer(questionId, value) {
+            answers[questionId] = value;
+            updateProgress();
+        }
+
+        function submitTest() {
+            clearInterval(timerInterval);
+            const results = calculateResults();
+            displayResults(results);
+        }
+
+        function calculateResults() {
+            let totalScore = 0;
+            let topicScores = {};
+            let categoryScores = {};
+
+            questions.forEach(q => {
+                const userAnswer = answers[q.id] || '';
+                let score = 0;
+
+                if (!topicScores[q.topic]) {
+                    topicScores[q.topic] = { score: 0, total: 0 };
+                }
+
+                if (!categoryScores[q.category]) {
+                    categoryScores[q.category] = { score: 0, total: 0 };
+                }
+
+                if (q.type === 'multiple') {
+                    score = userAnswer === q.answer ? q.marks : 0;
+                } else if (q.type === 'calculation') {
+                    const numAnswer = parseFloat(userAnswer);
+                    if (!isNaN(numAnswer) && Math.abs(numAnswer - q.answer) <= q.tolerance) {
+                        score = q.marks;
+                    }
+                } else if (q.type === 'equation') {
+                    const cleaned = userAnswer.replace(/\s/g, '').toLowerCase();
+                    const expected = q.answer.replace(/\s/g, '').toLowerCase();
+                    score = cleaned === expected ? q.marks : 0;
+                } else if (q.type === 'text') {
+                    const answerLower = userAnswer.toLowerCase();
+                    let keywordsFound = 0;
+                    q.keywords.forEach(keyword => {
+                        if (answerLower.includes(keyword.toLowerCase())) {
+                            keywordsFound++;
+                        }
+                    });
+                    score = Math.min(q.marks, Math.floor((keywordsFound / q.keywords.length) * q.marks));
+                }
+
+                totalScore += score;
+                topicScores[q.topic].score += score;
+                topicScores[q.topic].total += q.marks;
+                categoryScores[q.category].score += score;
+                categoryScores[q.category].total += q.marks;
+            });
+
+            return {
+                totalScore,
+                totalMarks: 105,
+                percentage: (totalScore / 105) * 100,
+                topicScores,
+                categoryScores,
+                timeTaken: Math.floor((Date.now() - startTime) / 1000)
+            };
+        }
+
+        function getGrade(percentage) {
+            if (percentage >= 85) return { grade: '9', class: 'grade-9' };
+            if (percentage >= 75) return { grade: '8', class: 'grade-8' };
+            if (percentage >= 65) return { grade: '7', class: 'grade-7' };
+            if (percentage >= 55) return { grade: '6', class: 'grade-6' };
+            return { grade: 'Below 6', class: 'grade-below' };
+        }
+
+        function displayResults(results) {
+            document.getElementById('testQuestions').classList.add('hidden');
+            const resultsScreen = document.getElementById('resultsScreen');
+            resultsScreen.classList.remove('hidden');
+
+            const grade = getGrade(results.percentage);
+            const timeMins = Math.floor(results.timeTaken / 60);
+            const timeSecs = results.timeTaken % 60;
+
+            let html = `
+                <h2>Test Complete!</h2>
+                <div class="score-display">
+                    ${results.totalScore} / ${results.totalMarks}
+                </div>
+                <div class="grade-display ${grade.class}">
+                    Grade: ${grade.grade}<br>
+                    ${results.percentage.toFixed(1)}%
+                </div>
+                <p>Time: ${timeMins}m ${timeSecs}s</p>
+                <div class="feedback-section">
+                    <h3>Detailed Feedback</h3>
+                    ${generateFeedback(results)}
+                </div>
+                <button class="btn" onclick="location.reload()">Restart Test</button>
+            `;
+
+            resultsScreen.innerHTML = html;
+        }
+
+        function generateFeedback(results) {
+            let html = '<div class="feedback-category"><h4>Performance by Topic</h4><ul>';
+            
+            Object.entries(results.topicScores).forEach(([topic, scores]) => {
+                const percentage = (scores.score / scores.total) * 100;
+                const emoji = percentage >= 80 ? '✅' : percentage >= 60 ? '⚠️' : '❌';
+                html += `<li>${emoji} ${topic}: ${scores.score}/${scores.total} (${percentage.toFixed(0)}%)</li>`;
+            });
+
+            html += '</ul></div>';
+
+            if (results.percentage >= 75) {
+                html += `<div class="feedback-category">
+                    <h4>🌟 Excellent Performance!</h4>
+                    <p>You're working at Grade 8-9 level. Keep practicing past papers to maintain this standard.</p>
+                </div>`;
+            } else if (results.percentage >= 65) {
+                html += `<div class="feedback-category">
+                    <h4>💪 Good Progress!</h4>
+                    <p>You're at Grade 7. Focus on weak topics to reach Grade 8-9.</p>
+                </div>`;
+            } else {
+                html += `<div class="feedback-category">
+                    <h4>📈 Keep Working!</h4>
+                    <p>Review your weak areas using flashcards and practice questions.</p>
+                </div>`;
+            }
+
+            return html;
+        }
+    </script>
+</body>
+</html>
