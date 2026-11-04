@@ -294,7 +294,7 @@
 
         <div class="timer-section">
             <div class="progress-info">
-                <div class="marks-display">Total: 105 marks</div>
+                <div class="marks-display">Total: 108 marks</div>
                 <div id="questionProgress"></div>
             </div>
             <div class="timer" id="timer">Time: 110:00</div>
@@ -305,7 +305,7 @@
                 <h2>Welcome to Your Chemistry Test</h2>
                 <p>This test is designed to challenge you at Grade 8-9 level.</p>
                 <ul>
-                    <li>Total marks: 105</li>
+                    <li>Total marks: 108</li>
                     <li>Time limit: 110 minutes</li>
                     <li>Topics covered: All major GCSE Chemistry topics</li>
                     <li>You'll receive personalized feedback based on your performance</li>
@@ -463,13 +463,13 @@
             },
             {
                 id: 'q14',
-                type: 'text',
-                marks: 5,
+                type: 'calculation',
+                marks: 3,
                 topic: 'calculations',
                 category: 'calculation',
-                question: 'Find empirical formula: 40% C, 6.7% H, 53.3% O',
-                answer: ['CH2O'],
-                keywords: ['CH2O', 'CHO']
+                question: 'Calculate the percentage by mass of oxygen in calcium carbonate, CaCO₃. (Ar: Ca=40, C=12, O=16)',
+                answer: 48,
+                tolerance: 0.5
             },
             {
                 id: 'q15',
@@ -487,7 +487,7 @@
                 marks: 2,
                 topic: 'rates',
                 category: 'application',
-                question: 'What increases rate most for zinc + HCl?',
+                question: 'Zinc reacts with hydrochloric acid. Which change increases the rate by increasing the surface area?',
                 options: ['Temperature +10°C', 'Double concentration', 'Use zinc powder', 'Stir'],
                 answer: 'Use zinc powder'
             },
@@ -809,8 +809,8 @@
 
             return {
                 totalScore,
-                totalMarks: 105,
-                percentage: (totalScore / 105) * 100,
+                totalMarks: 108,
+                percentage: (totalScore / 108) * 100,
                 topicScores,
                 categoryScores,
                 timeTaken: Math.floor((Date.now() - startTime) / 1000)
